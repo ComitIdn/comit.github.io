@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='utf-8'/><meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Auto Repair Passthrough In Mangle - MikroTik Script RouterOS</title>
+<meta content='Auto Repair Passthrough In Mangle - MikroTik RouterOS Script DataBase' name='description'/>
+<meta content='mikrotik script, routeros script, script database, script, mikrotik, routeros, router, hotspot, rtrwnet' name='keywords'/>
+<meta content='index, follow' name='robots'/><meta http-equiv="expires" content="0"/>
+<link rel="stylesheet" href="//router-os.github.io/stytes.css"/>
+<link rel="stylesheet" href="//router-os.github.io/highlightjs/styles/github.css"/>
+<script src="//router-os.github.io/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</head>  
+<body>
+<pre>
+<h1>Auto Repair Passthrough In Mangle - MikroTik Script RouterOS</h1>
+Script to solve passthrough errors in mikrotik mangle with many rules.
+
+note: remember we understand the conditions of each mangle, because each setting will be different conditions, here I generally assume that all "mark-connection", "mark-routing" uses passthrough = yes and "mark-packet" uses passthrough = no
+
+<code>foreach mrk in=("packet","connection", "routing") do={
+foreach i in=([/ip firewall mangle find where action=("mark-" . $mrk)]) do={
+:if ($mrk = "packet") do={ 
+local cmd ("ip firewall mangle set " . $i . " passthrough=no")
+:execute $cmd
+}
+:if ($mrk = "connection") do={ 
+local cmd ("ip firewall mangle set " . $i . " passthrough=yes")
+:execute $cmd
+}
+:if ($mrk = "routing") do={ 
+local cmd ("ip firewall mangle set " . $i . " passthrough=yes")
+:execute $cmd
+}
+}
+}</code>
+</pre>
+<br>
+<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Frouter-os.github.io%2F&count_bg=%23C83D3D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false" alt="Hits"/>
+<br><br>
+<a href="https://router-os.github.io/"><- Back To Home</a>
+</body>
+</html>

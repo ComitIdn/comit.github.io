@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='utf-8'/><meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Write simple queue stats in multiple files - Mikrotik Script RouterOS</title>
+<meta content='Write simple queue stats in multiple files - Mikrotik Script' name='description'/>
+<meta content='mikrotik script, routeros script, script database, script, mikrotik, routeros, router, hotspot, rtrwnet' name='keywords'/>
+<meta content='index, follow' name='robots'/><meta http-equiv="expires" content="0"/>
+<link rel="stylesheet" href="//router-os.github.io/stytes.css"/>
+<link rel="stylesheet" href="//router-os.github.io/highlightjs/styles/github.css"/>
+<script src="//router-os.github.io/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</head> 
+<body>
+<pre>
+<h1>Write simple queue stats in multiple files - Mikrotik Script</h1>
+Write simple queue stats in multiple files
+
+Lets consider queue namings are "some text.1" so we can search queues by last number right after the dot.
+
+<code>:local entriesPerFile 10;
+:local currentQueue 0;
+:local queuesInFile 0;
+:local fileContent "";
+
+# determine needed file count
+:local numQueues [/queue simple print count-only] ;
+:local fileCount ($numQueues / $entriesPerFile);
+:if ( ($fileCount * $entriesPerFile) != $numQueues) do={
+   :set fileCount ($fileCount + 1);
+}
+
+# remove old files 
+/file remove [find name~"stats"];
+:put "fileCount=$fileCount";
+:for i from=1 to=$fileCount do={
+
+#create file
+   /file print file="stats$i.txt";
+   
+#clear content
+   /file set [find name="stats$i.txt"] contents="";
+
+   :while ($queuesInFile < $entriesPerFile) do={
+     :if ($currentQueue < $numQueues) do={
+         :set currentQueue ($currentQueue +1);
+         :put $currentQueue ;
+         /queue simple
+         :local internalID [find name~"\\.$currentQueue\$"];
+         :put "internalID=$internalID";
+         :set fileContent ($fileContent . [get $internalID target-address] . \
+           " " . [get $internalID total-bytes] . "\r\n");
+     }
+     :set queuesInFile ($queuesInFile +1);
+     
+   } 
+   
+   /file set "stats$i.txt" contents=$fileContent;
+   :set fileContent "";
+   :set queuesInFile 0;
+}</code>
+</pre>
+<br>
+<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Frouter-os.github.io%2F&count_bg=%23C83D3D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false" alt="Hits"/>
+<br><br>
+<a href="https://router-os.github.io/"><- Back To Home</a>
+</body>
+</html>
+

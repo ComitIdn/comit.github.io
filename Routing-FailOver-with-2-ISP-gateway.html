@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='utf-8'/><meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Routing FailOver with 2 ISP (gateway) - MikroTik Script RouterOS</title>
+<meta content='Routing FailOver with 2 ISP (gateway) - MikroTik RouterOS Script DataBase' name='description'/>
+<meta content='mikrotik script, routeros script, script database, script, mikrotik, routeros, router, hotspot, rtrwnet' name='keywords'/>
+<meta content='index, follow' name='robots'/><meta http-equiv="expires" content="0"/>
+<link rel="stylesheet" href="//router-os.github.io/stytes.css"/>
+<link rel="stylesheet" href="//router-os.github.io/highlightjs/styles/github.css"/>
+<script src="//router-os.github.io/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</head>  
+<body>
+<pre>
+<h1>Routing FailOver with 2 ISP (gateway) - MikroTik Script RouterOS</h1>
+Using more than one internet gateway (ISP) allows us to fail over where one link can be used as the main gateway and the other becomes the backup link. For these needs, the usual configuration is to define a check-gateway and differentiate the distance value for each routing rule.
+
+WAN-1 = IP 192.168.2.2/24
+WAN-2 = IP 192.168.3.2/24
+
+<code>/ip route
+add check-gateway=ping distance=1 gateway=192.168.2.1 target-scope=10
+add check-gateway=ping distance=2 gateway=192.168.3.1 target-scope=10</code>
+</pre>
+<br>
+<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Frouter-os.github.io%2F&count_bg=%23C83D3D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false" alt="Hits"/>
+<br><br>
+<a href="https://router-os.github.io/"><- Back To Home</a>
+</body>
+</html>

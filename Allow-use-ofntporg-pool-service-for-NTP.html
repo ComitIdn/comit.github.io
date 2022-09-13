@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='utf-8'/><meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Allow Use Of ntp.org Pool Service For NTP - Mikrotik Script RouterOS </title>
+<meta content='Allow Use Of ntp.org Pool Service For NTP - Mikrotik Script RouterOS DataBase' name='description'/>
+<meta content='mikrotik script, routeros script, script database, script, mikrotik, routeros, router, hotspot, rtrwnet' name='keywords'/>
+<meta content='index, follow' name='robots'/><meta http-equiv="expires" content="0"/>
+<link rel="stylesheet" href="//router-os.github.io/stytes.css"/>
+<link rel="stylesheet" href="//router-os.github.io/highlightjs/styles/github.css"/>
+<script src="//router-os.github.io/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</head>  
+<body>
+<pre>
+<h1>Allow Use Of ntp.org Pool Service For NTP - Mikrotik Script RouterOS</h1>
+This script resolves the hostnames of two NTP servers, compares the result with the current NTP settings and changes the addresses if they're different. This script is required as RouterOS does not allow hostnames to be used in the NTP configuration. Two scripts are used. The first defines some system variables which are used in other scripts and the second does the grunt work:
+
+<code># System configuration script - "GlobalVars"
+:put "Setting system globals";
+
+# System name
+:global SYSname [/system identity get name];
+
+# E-mail address to send notifications to
+:global SYSsendemail "mail@my.address";
+
+# E-mail address to send notifications from
+:global SYSmyemail "routeros@my.address";
+
+# Mail server to use
+:global SYSemailserver "1.2.3.4";
+
+# NTP pools to use (check www.pool.ntp.org)
+:global SYSntpa "0.uk.pool.ntp.org";
+:global SYSntpb "1.uk.pool.ntp.org";
+# Check and set NTP servers - "setntppool"
+
+# We need to use the following globals which must be defined here even
+# though they are also defined in the script we call to set them.
+:global SYSname;
+:global SYSsendemail;
+:global SYSmyemail;
+:global SYSmyname;
+:global SYSemailserver;
+:global SYSntpa;
+:global SYSntpb;
+
+# Load the global variables with the system defaults
+/system script run GlobalVars
+
+# Resolve the two ntp pool hostnames
+:local ntpipa [:resolve $SYSntpa];
+:local ntpipb [:resolve $SYSntpb];
+
+# Get the current settings
+:local ntpcura [/system ntp client get primary-ntp];
+:local ntpcurb [/system ntp client get secondary-ntp];
+
+# Define a variable so we know if anything's changed.
+:local changea 0;
+:local changeb 0;
+
+# Debug output
+:put ("Old: " . $ntpcura . " New: " . $ntpipa);
+:put ("Old: " . $ntpcurb . " New: " . $ntpipb);
+
+# Change primary if required
+:if ($ntpipa != $ntpcura) do={
+    :put "Changing primary NTP";
+    /system ntp client set primary-ntp="$ntpipa";
+    :set changea 1;
+    }
+
+# Change secondary if required
+:if ($ntpipb != $ntpcurb) do={
+    :put "Changing secondary NTP";
+    /system ntp client set secondary-ntp="$ntpipb";
+    :set changeb 1;
+    }
+
+# If we've made a change, send an e-mail to say so.
+:if (($changea = 1) || ($changeb = 1)) do={
+    :put "Sending e-mail.";
+    /tool e-mail send \
+        to=$SYSsendemail \
+        subject=($SYSname . " NTP change") \
+        from=$SYSmyemail \
+        server=$SYSemailserver \
+        body=("Your NTP servers have just been changed:\n\nPrimary:\nOld: " . $ntpcura . "\nNew: " \
+          . $ntpipa . "\n\nSecondary\nOld: " . $ntpcurb . "\nNew: " . $ntpipb);
+    }</code>
+ Scheduler entry:
+
+<code>/system scheduler add \
+  comment="Check and set NTP servers" \
+  disabled=no \
+  interval=12h \
+  name=CheckNTPServers \
+  on-event=setntppool \
+  policy=read,write,test \
+  start-date=jan/01/1970 \
+  start-time=16:00:00</code>
+</pre>
+<br>
+<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Frouter-os.github.io%2F&count_bg=%23C83D3D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false" alt="Hits"/>
+<br><br>
+<a href="https://router-os.github.io/"><- Back To Home</a>
+</body>
+</html>  
+  

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='utf-8'/><meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Protect Open Recursive DNS - Mikrotik Script RouterOS</title>
+<meta content='Protect Open Recursive DNS - Mikrotik Script' name='description'/>
+<meta content='mikrotik script, routeros script, script database, script, mikrotik, routeros, router, hotspot, rtrwnet' name='keywords'/>
+<meta content='index, follow' name='robots'/><meta http-equiv="expires" content="0"/>
+<link rel="stylesheet" href="//router-os.github.io/stytes.css"/>
+<link rel="stylesheet" href="//router-os.github.io/highlightjs/styles/github.css"/>
+<script src="//router-os.github.io/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>  
+</head>
+<body>
+<pre>
+<h1>Protect Open Recursive DNS - Mikrotik Script</h1>
+Have you ever felt that internet access suddenly feels slow? it could be that someone is naughty who uses our public router IP as a DNS server, 
+usually this is indicated by the high upload speed to the internet, to avoid this we simply use the script below.
+
+<code>/ip firewall filter
+add chain=input dst-port=53 in-interface=WAN protocol=tcp action=drop
+add chain=input dst-port=53 in-interface=WAN protocol=udp action=drop</code>
+</pre>
+<br>
+<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Frouter-os.github.io%2F&count_bg=%23C83D3D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false" alt="Hits"/>
+<br><br>
+<a href="https://router-os.github.io/"><- Back To Home</a>
+</body>
+</html>

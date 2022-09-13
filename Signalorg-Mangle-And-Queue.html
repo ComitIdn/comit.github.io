@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='utf-8'/><meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Signal.org Mangle And Queue  - Mikrotik Script RouterOS</title>
+<meta content='Signal.org Mangle And Queue  - Mikrotik Script' name='description'/>
+<meta content='mikrotik script, routeros script, script database, script, mikrotik, routeros, router, hotspot, rtrwnet' name='keywords'/>
+<meta content='index, follow' name='robots'/><meta http-equiv="expires" content="0"/>
+<link rel="stylesheet" href="//router-os.github.io/stytes.css"/>
+<link rel="stylesheet" href="//router-os.github.io/highlightjs/styles/github.css"/>
+<script src="//router-os.github.io/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>    
+</head> 
+<body>
+<pre>
+<h1>Signal.org Mangle And Queue - Mikrotik Script</h1>
+The Signal application does not have a special port because what I know is that the port still uses secure TCP 443 and a random port for UDP, so we can simply mark it to the domain hosts * .signal.org and * .whispersystems.org For packet marking the Signal application can use tls-host or content or addlist or layer7
+
+<code>/ip firewall 
+address-list add address=172.16.0.0/12 list=IP-LAN
+address-list add address=192.168.0.0/16 list=IP-LAN
+address-list add address=10.0.0.0/8 list=IP-LAN
+
+/ip firewall filter 
+add action=add-dst-to-address-list address-list=Signal address-list-timeout=1d chain=forward dst-address-list=!IP-LAN protocol=tcp tls-host=*.signal.org
+add action=add-dst-to-address-list address-list=Signal address-list-timeout=1d chain=forward dst-address-list=!IP-LAN protocol=tcp tls-host=*.whispersystems.org
+
+/ip firewall mangle 
+add action=mark-connection chain=prerouting dst-address-list=Signal new-connection-mark=conn-Signal passthrough=yes src-address-list=IP-LAN
+add action=mark-packet chain=prerouting connection-mark=conn-Signal new-packet-mark=Signal-pkt passthrough=no src-address-list=IP-LAN
+action=mark-packet chain=postrouting connection-mark=conn-Signal dst-address-list=IP-LAN new-packet-mark=Signal-pkt passthrough=no
+
+/queue simple 
+add name="Signal" packet-marks=Signal-pkt queue=default/default target=10.0.0.0/8,192.168.0.0/16,172.16.0.0/12 total-queue=default</code>
+</pre>
+<br>
+<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Frouter-os.github.io%2F&count_bg=%23C83D3D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false" alt="Hits"/>
+<br><br>
+<a href="https://router-os.github.io/"><- Back To Home</a>
+</body>
+</html>

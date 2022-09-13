@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='utf-8'/><meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Ho To Resolve host-name - Mikrotik Script RouterOS</title>
+<meta content='Ho To Resolve host-name - Mikrotik Script' name='description'/>
+<meta content='mikrotik script, routeros script, script database, script, mikrotik, routeros, router, hotspot, rtrwnet' name='keywords'/>
+<meta content='index, follow' name='robots'/><meta http-equiv="expires" content="0"/>
+<link rel="stylesheet" href="//router-os.github.io/stytes.css"/>
+<link rel="stylesheet" href="//router-os.github.io/highlightjs/styles/github.css"/>
+<script src="//router-os.github.io/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>   
+</head> 
+<body>
+<pre>
+<h2>Ho To Resolve host-name - Mikrotik Script</h2>
+
+Many users are asking feature to use dns names instead of IP address for radius servers, firewall rules, etc.
+So here is an example how to resolve RADIUS server's IP.
+Lets say we have radius server configured:
+
+<code>/radius 
+add address=3.4.5.6 comment=myRad</code>
+
+And here is a script that will resolve ip address, compare resolved ip with configured one and replace if not equal:
+
+<code>/system script add name="resolver" source= {
+:local resolvedIP [:resolve "server.example.com"];
+:local radiusID [/radius find comment="myRad"];
+:local currentIP [/radius get $radiusID address];
+:if ($resolvedIP != $currentIP) do={
+   /radius set $radiusID address=$resolvedIP;
+   /log info "radius ip updated";
+}
+}
+
+# Add this script to scheduler to run for example every 5 minutes
+/system scheduler add name=resolveRadiusIP on-event="resolver" interval=5m</code>
+
+</pre>
+<br>
+<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Frouter-os.github.io%2F&count_bg=%23C83D3D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false" alt="Hits"/>
+<br><br>
+<a href="https://router-os.github.io/"><- Back To Home</a>
+</body>
+</html>
+

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="https://buananetpbun.github.io/favicon.ico" type="image/x-icon">
+    <title>MikroTik RouterOS Search Script - router-os.github.io</title>
+    <meta content='Free MikroTik RouterOS Search Script' name='description'/>
+    <meta content='tool, pcc, queue, vpn, setting mikrotik, mikrotik, router, winbox, termimal, rsc, script, hotspot, wirelessm rtrwnet' name='keywords'/>
+    <meta content='index, follow, noodp' name='robots'/>
+    <style>
+      *{
+      margin:0;
+      padding:0;
+      }
+      .gsib_a{
+      height:30px; 
+      padding-left:10px 
+      !important; 
+      }
+      .gsc-input input{
+      color:#111; 
+      background:#ddd !important; 
+      width:100% !important
+      }
+      .gsc-input-box {
+      border-radius:5px; height:40px;
+      background:#ddd !important;
+      margin-right: -6px !important;
+      line-height:normal !important
+      }
+      .gsc-search-button-v2 {
+      border-radius:5px !important;
+      height:40px !important;
+      }
+      .gsc-control-cse {
+      background:none !important;
+      border:none !important; 
+      clear: both 
+      }
+      body{
+      background: #f0f0f0;
+      color:#999;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      font-size: 0.9375rem;
+      font-weight: 400;
+      }
+      #page{
+      background: #f0f0f0;
+      width:600px;
+      margin:0 auto 0;
+      border-radius:5px;
+      }
+      h1{
+      overflow:hidden;
+      text-align:center;
+      font-size: 2.0rem;
+      font-weight: 400;
+      }
+      #searchForm{
+      /* The search form. */
+      padding:50px 50px 30px;
+      margin:80px 0;
+      position:relative;
+      border:0px solid #222;
+      -moz-border-radius:16px;
+      -webkit-border-radius:16px;
+      border-radius:16px;
+      }
+      fieldset{
+      border:none;
+      }
+      p.credit{
+      margin:20px 0;
+      text-align:center;
+      }
+      p.credit a{
+      color:#FF9900;
+      font-size:11px;
+      padding:4px 8px;
+      }
+      p.credit a:hover{
+      color:#999;
+      }
+      a, a:visited {
+      text-decoration:none;
+      outline:none;
+      color:#97cae6;
+      }
+      a:hover{
+      }
+      .clear{
+      clear:both;
+      }
+      @media screen and (max-width: 500px){
+      #page{
+      width:95%;
+      }       
+      #searchForm{
+      /* The search form. */
+      padding:30px 10px 10px;
+      margin:40px 0;
+      width:95%;
+      }
+      h1{
+      overflow:hidden;
+      line-height: normal;
+      text-align:center;
+      font-size: 2.0rem;
+      font-weight: 400;
+      }     
+      }
+      .mymenu {
+      margin:0 auto;
+      background-color: #ddd;
+      width:570px;
+      border-radius:0 0 5px 5px;
+      border: 1px solid #ddd;
+      font-weight:bold;
+      font-size:13px;
+      }
+      .mymenu ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #ddd;
+      }
+      .mymenu li {
+      float: left;
+      }
+      .mymenu li a {
+      display: block;
+      color: #555;
+      text-align: center;
+      padding: 8px 10px;
+      text-decoration: none;
+      }
+      .mymenu li a:hover {
+      background-color: #bbb;
+      color: #111;
+      }   
+    </style>
+  </head>
+  <body>
+    <div class="mymenu">
+      <ul>
+        <li><a target="_blank" href="https://buananetpbun.github.io">☰ ALL TOOLS</a></li>
+        <li><a target="_blank" href="https://github.com/buananetpbun">GITHUB</a></li>
+        <li><a href="javascript:callmodal()">DONATE</a></li>
+        <li><a target="_blank" href="https://fb.me/buananet.pbun">CONTACT</a></li>
+        <img style="float:right; margin-right:10px" src="https://user-images.githubusercontent.com/42666125/150687713-5bb23ddf-11a2-476d-a6dc-81e97eec3a77.png" alt="Mikrotik RouterOS">
+      </ul>
+    </div>
+    <div id="page">
+      <form id="searchForm" method="post">
+        <h1>{ <span style="color:#FF9900">router-os</span>.github.io }</h1>
+        <p class="credit">MikroTik RouterOS Search Script</p>
+        <fieldset>
+          <script async src="https://cse.google.com/cse.js?cx=6879494ac5b3a8639"></script>
+          <div style="clear:both;"></div>
+          <div class="gcse-search"></div>
+        </fieldset>
+        <p class="credit"><a href="http://buananetpbun.github.io">© Copyright 2020-2022 router-os.github.io by buananetpbun</a></p>
+      </form>
+    </div>
+  </body>
+</html>

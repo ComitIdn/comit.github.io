@@ -1,0 +1,59 @@
+  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='utf-8'/><meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>How To Detect New Log Entry - Mikrotik Script RouterOS</title>
+<meta content='How To Detect New Log Entry - Mikrotik Script' name='description'/>
+<meta content='mikrotik script, routeros script, script database, script, mikrotik, routeros, router, hotspot, rtrwnet' name='keywords'/>
+<meta content='index, follow' name='robots'/><meta http-equiv="expires" content="0"/>
+<link rel="stylesheet" href="//router-os.github.io/stytes.css"/>
+<link rel="stylesheet" href="//router-os.github.io/highlightjs/styles/github.css"/>
+<script src="//router-os.github.io/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+<pre>
+<h1>How To Detect New Log Entry - Mikrotik Script</h1>
+This script is checking if new log entry is added to particular buffer.
+In this example we will use pppoe logs:
+
+<code>/system logging action
+add name="pppoe"
+/system logging
+add action=pppoe topics=pppoe,info,!ppp,!debug</code>
+
+Log buffer will look similar to this one:
+
+[admin@mainGW] > /log print where buffer=pppoe 
+13:11:08 pppoe,info PPPoE connection established from 00:0C:42:04:4C:EE 
+Now we can write a script to detect if new entry is added.
+
+Code:
+
+<code>:global lastTime;
+:global currentBuf [ :toarray [ /log find buffer=pppoe  ] ] ;
+:global currentLineCount [ :len $currentBuf ] ;
+:global currentTime [ :totime [/log get [ :pick $currentBuf ($currentLineCount -1) ] time   ] ];
+:global message "";
+:if ( $lastTime = "" ) do={ 
+	:set lastTime $currentTime ; 
+	:set message [/log get [ :pick $currentBuf ($currentLineCount-1) ] message];
+
+} else={
+	:if ( $lastTime < $currentTime ) do={ 
+		:set lastTime $currentTime ; 
+		:set message [/log get [ :pick $currentBuf ($currentLineCount-1) ] message];
+	}
+}</code>
+
+After new entry is detected, it is saved in "message" variable, which you can use later to parse log message, for example, to get pppoe clients mac address.
+</pre>
+<br>
+<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Frouter-os.github.io%2F&count_bg=%23C83D3D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false" alt="Hits"/>
+<br><br>
+<a href="https://router-os.github.io/"><- Back To Home</a>
+</body>
+</html>
+

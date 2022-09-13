@@ -1,0 +1,42 @@
+  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='utf-8'/><meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Remote IP Public Static For Secondary Gateway - Mikrotik Script RouterOS</title>
+<meta content='Remote IP Public Static For Secondary Gateway - Mikrotik Script' name='description'/>
+<meta content='mikrotik script, routeros script, script database, script, mikrotik, routeros, router, hotspot, rtrwnet' name='keywords'/>
+<meta content='index, follow' name='robots'/><meta http-equiv="expires" content="0"/>
+<link rel="stylesheet" href="//router-os.github.io/stytes.css"/>
+<link rel="stylesheet" href="//router-os.github.io/highlightjs/styles/github.css"/>
+<script src="//router-os.github.io/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</head>  
+<body>
+<pre>
+<h1>Remote IP Public Static For Secondary Gateway - Mikrotik Script</h1>
+So that the Public Static IP can be used for remote even though not as the main gateway
+
+An easy example like this ... suppose we use Indihome as the main gateway and Astinet as a backup gateway, in the standard routing concept, of course, Public IP Astinet cannot be used for remote because its position is only as a backup gateway, so that Astinet Public IP can still be used for example. Winbox remote needs are very easy, and this method can also be applied to all ISP that have Public Static IP
+
+Or you can use <a target="_blank" href="https://router-os.github.io/remote-ip-public-static.html" >Script Maker or Generator</a>
+
+<code>####################################################################
+# Remote IP Public Static For Secondary Gateway Mikrotik
+# Date/Time: 2/14/2021, 1:40:07 PM
+# By BuanaNET Secure! https://fb.me/buananet.pbun
+####################################################################
+
+/ip firewall mangle
+add action=mark-connection chain=input in-interface="ether2" new-connection-mark=ip-public passthrough=yes
+add action=mark-routing chain=output connection-mark=ip-public new-routing-mark=ip-public passthrough=no
+
+/ip route
+add check-gateway=ping gateway="192.168.10.1" routing-mark=ip-public</code>
+</pre>
+<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Frouter-os.github.io%2F&count_bg=%23C83D3D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false" alt="Hits"/>
+<br><br>
+<a href="https://router-os.github.io/"><- Back To Home</a>
+</body>
+</html>

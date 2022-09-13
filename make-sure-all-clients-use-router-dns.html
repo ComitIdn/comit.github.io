@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='utf-8'/><meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Make Sure All Clients Use Router Dns - MikroTik Script RouterOS</title>
+<meta content='Make Sure All Clients Use Router Dns - MikroTik RouterOS Script DataBase' name='description'/>
+<meta content='mikrotik script, routeros script, script database, script, mikrotik, routeros, router, hotspot, rtrwnet' name='keywords'/>
+<meta content='index, follow' name='robots'/><meta http-equiv="expires" content="0"/>
+<link rel="stylesheet" href="//router-os.github.io/stytes.css"/>
+<link rel="stylesheet" href="//router-os.github.io/highlightjs/styles/github.css"/>
+<script src="//router-os.github.io/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</head>  
+<body>
+<pre>
+<h1>Make Sure All Clients Use Router Dns - MikroTik Script RouterOS</h1>
+Make Sure All Clients Use RouterOS Mikrotik Dns
+
+<code>/ip dns
+set allow-remote-requests=yes cache-max-ttl=3h cache-size=10240KiB servers=8.8.8.8,8.8.4.4,208.67.222.222,208.67.220.220,1.1.1.1,9.9.9.9
+
+/ip firewall nat
+add action=redirect chain=dstnat dst-port=53 protocol=udp to-ports=53
+add action=redirect chain=dstnat dst-port=53 protocol=tcp to-ports=53</code>
+</pre>
+<br>
+<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Frouter-os.github.io%2F&count_bg=%23C83D3D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false" alt="Hits"/>
+<br><br>
+<a href="https://router-os.github.io/"><- Back To Home</a>
+</body>
+</html>

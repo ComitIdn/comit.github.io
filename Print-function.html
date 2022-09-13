@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='utf-8'/><meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Print Function - Mikrotik Script RouterOS</title>
+<meta content='Print Function - Mikrotik Script' name='description'/>
+<meta content='mikrotik script, routeros script, script database, script, mikrotik, routeros, router, hotspot, rtrwnet' name='keywords'/>
+<meta content='index, follow' name='robots'/><meta http-equiv="expires" content="0"/>
+<link rel="stylesheet" href="//router-os.github.io/stytes.css"/>
+<link rel="stylesheet" href="//router-os.github.io/highlightjs/styles/github.css"/>
+<script src="//router-os.github.io/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>  
+</head> 
+<body>
+<pre>
+<h1>Print Function - Mikrotik Script</h1>
+How to Print Function on RouterOS
+
+As stated in Lua documentation, <span style="color:red">'print'</span> command is not available in RouterOS compared to standard Lua release. This example will show you how to get back <span style="color:red">'print'</span> command
+
+<code># Print function
+function print (...)
+   local strPrintResult = ""
+   if ... then
+      local targs = {...}
+      for i,v in ipairs(targs) do
+        strPrintResult = strPrintResult .. tostring(v) .. "  "
+      end
+      strPrintResult = strPrintResult .. "\r\n"
+      io.write(strPrintResult)
+   end
+end</code>
+
+Now you can include this custom function to other scripts and use this cool custom print function :)
+You can also modify this function to write messages in RouterOS log.
+</pre>
+<br>
+<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Frouter-os.github.io%2F&count_bg=%23C83D3D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false" alt="Hits"/>
+<br><br>
+<a href="https://router-os.github.io/"><- Back To Home</a>
+</body>
+</html>

@@ -1,0 +1,67 @@
+  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='utf-8'/><meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Calculates day of the week for a givien date - Mikrotik Script RouterOS</title>
+<meta content='Calculates day of the week for a givien date - Mikrotik Script' name='description'/>
+<meta content='mikrotik script, routeros script, script database, script, mikrotik, routeros, router, hotspot, rtrwnet' name='keywords'/>
+<meta content='index, follow' name='robots'/><meta http-equiv="expires" content="0"/>
+<link rel="stylesheet" href="//router-os.github.io/stytes.css"/>
+<link rel="stylesheet" href="//router-os.github.io/highlightjs/styles/github.css"/>
+<script src="//router-os.github.io/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script> 
+</head> 
+<body>
+<pre>
+<h1>Calculates day of the week for a givien date - Mikrotik Script</h1>
+How To Calculates day of the week for a givien date on RouterOS
+
+<code># Calculates day of the week for a givien date
+# Month: jan,feb ... nov,dec   (must be lower-case)
+# Day: 1 - 31
+# Year: 1583 - ...
+# mmm/dd/yyyy   same format as [/system clock get date]
+# (ex. feb/19/2012)
+# by melboyscout (melboyscout [at] gmail.com)
+
+:local date [/system clock get date]
+
+# Math Calculation here
+:local result ""
+:local months [:toarray "jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec"]
+:local daytbl [:toarray "sun,mon,tue,wed,thu,fri,sat"]
+
+:local month [:pick $date 0 3]
+:local day [:pick $date 4 6]
+:local dayc [:pick $date 5 6]
+:local year [:pick $date 7 11]
+
+# if the first char is a 0 (zero) only read last char, else script fails
+:if ([:pick $date 4 5] = 0) do={ :set day ($dayc)}
+
+:local sum 0
+:local aaa 0
+:local yyy 0
+:local mmm 0
+:local nmonth 1
+
+:for mindex from=0 to=[:len $months] do={
+  :if ([:pick $months $mindex] = $month) do={:set nmonth ($mindex + 1) }
+}
+
+:set aaa ((14 - $nmonth) / 12)
+:set yyy ($year - $aaa)
+:set mmm ($nmonth + 12 * $aaa - 2)
+:set sum (7000 + $day + $yyy + ($yyy / 4) - ($yyy / 100) + ($yyy / 400) + ((31 * $mmm) / 12))
+:set sum ($sum - (($sum / 7) * 7))
+:set result [:pick $daytbl $sum]
+:log info "Today is $result"</code>
+</pre>
+<br>
+<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Frouter-os.github.io%2F&count_bg=%23C83D3D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false" alt="Hits"/>
+<br><br>
+<a href="https://router-os.github.io/"><- Back To Home</a>
+</body>
+</html>

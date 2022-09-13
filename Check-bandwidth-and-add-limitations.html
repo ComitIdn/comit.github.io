@@ -1,0 +1,40 @@
+  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='utf-8'/><meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Check Bandwidth and Add Limitations - Mikrotik Script RouterOS</title>
+<meta content='Check Bandwidth and Add Limitations - Mikrotik Script' name='description'/>
+<meta content='mikrotik script, routeros script, script database, script, mikrotik, routeros, router, hotspot, rtrwnet' name='keywords'/>
+<meta content='index, follow' name='robots'/><meta http-equiv="expires" content="0"/>
+<link rel="stylesheet" href="//router-os.github.io/stytes.css"/>
+<link rel="stylesheet" href="//router-os.github.io/highlightjs/styles/github.css"/>
+<script src="//router-os.github.io/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script> 
+</head>  
+<body>
+<pre>
+<h1>Check Bandwidth and Add Limitations - Mikrotik Script</h1>
+This script checks if download on interface is more than 512kbps, if true then queue is added to limit speed to 256kbps.
+
+<code>:foreach i in=[/interface find] do={
+    /interface monitor-traffic $i once do={
+        :if ($"received-bits-per-second" > 0 ) do={
+            :local tmpIP [/ip address get [/ip address find interface=$i] address] ;
+            #:log warning $tmpIP ;
+            :for j from=( [:len $tmpIP] - 1) to=0 do={
+                :if ( [:pick $tmpIP $j] = "/") do={
+                    /queue simple add name=$i max-limit=256000/256000 dst-address=[:pick $tmpIP 0 $j] ;
+                } 
+            }
+        }
+    }
+} </code>
+</pre>
+<br>
+<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Frouter-os.github.io%2F&count_bg=%23C83D3D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false" alt="Hits"/>
+<br><br>
+<a href="https://router-os.github.io/"><- Back To Home</a>
+</body>
+</html>

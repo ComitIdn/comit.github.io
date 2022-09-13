@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='utf-8'/><meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Block Youtube with "Layer 7" or "Content" Or "TLS" - MikroTik Script RouterOS</title>
+<meta content='Block Youtube with "Layer 7" or "Content" Or "TLS" - MikroTik RouterOS Script DataBase' name='description'/>
+<meta content='mikrotik script, routeros script, script database, script, mikrotik, routeros, router, hotspot, rtrwnet' name='keywords'/>
+<meta content='index, follow' name='robots'/><meta http-equiv="expires" content="0"/>
+<link rel="stylesheet" href="//router-os.github.io/stytes.css"/>
+<link rel="stylesheet" href="//router-os.github.io/highlightjs/styles/github.css"/>
+<script src="//router-os.github.io/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</head>  
+<body>
+<pre>
+<h1>Block Youtube with "Layer 7" or "Content" Or "TLS" - MikroTik Script RouterOS</h1>
+How to Block Youtube with "Layer 7" or "Content" Or "TLS"
+
+Block Youtube With "Layer-7"
+
+<code>/ip firewall layer7-protocol
+add name=Youtube regexp="^.+(youtube.com|googlevideo.com).*\$"
+/ip firewall filter
+add action=drop chain=forward layer7-protocol=Youtube</code>
+
+Block Youtube With "Content"
+
+<code>/ip firewall filter
+add action=drop chain=forward content="youtube.com" 
+add action=drop chain=forward content="googlevideo.com"
+add action=drop chain=forward content=".youtube."
+add action=drop chain=forward content=".googlevideo."</code>
+
+Block Youtube With "TLS"
+
+<code>/ip firewall filter
+add action=drop chain=forward protocol=tcp tls-host="youtube.com"
+add action=drop chain=forward protocol=tcp tls-host="googlevideo.com"
+add action=drop chain=forward protocol=tcp tls-host="*.youtube.*"
+add action=drop chain=forward protocol=tcp tls-host="*.googlevideo.*"</code>
+</pre>
+<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Frouter-os.github.io%2F&count_bg=%23C83D3D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false" alt="Hits"/>
+<br><br>
+<a href="https://router-os.github.io/"><- Back To Home</a>
+</body>
+</html>

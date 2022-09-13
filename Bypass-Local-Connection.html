@@ -1,0 +1,51 @@
+  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='utf-8'/><meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Bypass Local Connection / Bypass Local IP - Mikrotik Script RouterOS</title>
+<meta content='CBypass Local Connection / Bypass Local IP  - Mikrotik Script' name='description'/>
+<meta content='mikrotik script, routeros script, script database, script, mikrotik, routeros, router, hotspot, rtrwnet' name='keywords'/>
+<meta content='index, follow' name='robots'/><meta http-equiv="expires" content="0"/>
+<link rel="stylesheet" href="//router-os.github.io/stytes.css"/>
+<link rel="stylesheet" href="//router-os.github.io/highlightjs/styles/github.css"/>
+<script src="//router-os.github.io/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script> 
+</head>
+<body>
+<pre>
+<h1>Bypass Local Connection / Bypass Local IP  - Mikrotik Script</h1>
+Simple How Bypass Local Connection / Bypass Local IP on RouterOS
+
+<code># paste script addlist to terminal
+/ip firewall address-list
+add address=0.0.0.0/8 list=LOCAL-IP
+add address=10.0.0.0/8 list=LOCAL-IP
+add address=100.64.0.0/10 list=LOCAL-IP
+add address=127.0.0.0/8 list=LOCAL-IP
+add address=169.254.0.0/16 list=LOCAL-IP
+add address=172.16.0.0/12 list=LOCAL-IP
+add address=192.0.0.0/24 list=LOCAL-IP
+add address=192.0.2.0/24 list=LOCAL-IP
+add address=192.168.0.0/16 list=LOCAL-IP
+add address=198.18.0.0/15 list=LOCAL-IP
+add address=198.51.100.0/24 list=LOCAL-IP
+add address=203.0.113.0/24 list=LOCAL-IP
+add address=224.0.0.0/4 list=LOCAL-IP
+add address=240.0.0.0/4 list=LOCAL-IP
+
+/ip fi ma
+add action=accept chain=prerouting dst-address-list=LOCAL-IP  src-address-list=LOCAL-IP
+add action=accept chain=postrouting dst-address-list=LOCAL-IP  src-address-list=LOCAL-IP
+add action=accept chain=forward dst-address-list=LOCAL-IP  src-address-list=LOCAL-IP
+add action=accept chain=input dst-address-list=LOCAL-IP  src-address-list=LOCAL-IP
+add action=accept chain=output dst-address-list=LOCAL-IP  src-address-list=LOCAL-IP</code>
+</pre>
+<br>
+<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Frouter-os.github.io%2F&count_bg=%23C83D3D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false" alt="Hits"/>
+<br><br>
+<a href="https://router-os.github.io/"><- Back To Home</a>
+</body>
+</html>
+
