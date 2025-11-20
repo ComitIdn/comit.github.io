@@ -6,7 +6,11 @@
   </a>
 </p>
 
-<iframe src="https://github.com/sponsors/ComitIdn/button" title="Sponsor ComitIdn" height="32" width="114" style="border: 0; border-radius: 6px;"></iframe>
+<p align="center">
+<span class="Button-content">
+    <span class="Button-label"><img src="https://avatars.githubusercontent.com/u/34952269?v=4" alt="" size="32" height="32" width="32" data-view-component="true" class="avatar circle"></span>
+  </span>
+</p>
 
 ---
 
